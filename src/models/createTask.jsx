@@ -4,18 +4,22 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 export const CreateTask = ({ modal, toggle, save }) => {
     const [taskName, setTaskName] = useState("");
     const [descripcion, setDescription] = useState("");
+    const maxCharacters = 300;
     const handleChange = (e) => {
         const { name, value } = e.target
-        if (name === "taskName") {
-            setTaskName(value)
-        } else {
-            setDescription(value)
+        if (value.length <= maxCharacters) {
+            if (name === "taskName") {
+                setTaskName(value)
+            } else {
+                setDescription(value)
+            }
         }
+
     };
-    const handleSave= ()=>{
+    const handleSave = () => {
         let taskObject = {}
-        taskObject["Name"]= taskName
-        taskObject["Description"]= descripcion
+        taskObject["Name"] = taskName
+        taskObject["Description"] = descripcion
         save(taskObject)
 
     }
@@ -34,8 +38,16 @@ export const CreateTask = ({ modal, toggle, save }) => {
                         </div>
                         <div className='mb-3'  >
                             <label>Descripcion</label>
-                            <textarea class="form-control" rows="5" value={descripcion} onChange={handleChange} name="descripcion" ></textarea>
-
+                            <textarea
+                                class="form-control"
+                                rows="5"
+                                value={descripcion}
+                                onChange={handleChange}
+                                name="descripcion"
+                                placeholder="Escribe aquí (máximo 300 caracteres)"
+                            ></textarea>
+                            <p>Caracteres restantes: {maxCharacters - descripcion.length}</p>
+                            
                         </div>
 
                     </form>
